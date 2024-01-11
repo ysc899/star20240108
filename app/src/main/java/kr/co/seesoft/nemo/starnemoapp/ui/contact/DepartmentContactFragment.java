@@ -1,6 +1,9 @@
 package kr.co.seesoft.nemo.starnemoapp.ui.contact;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.util.StringUtil;
 import kr.co.seesoft.nemo.starnemoapp.R;
 import kr.co.seesoft.nemo.starnemoapp.nemoapi.ro.NemoDepartmentContactListRO;
+import kr.co.seesoft.nemo.starnemoapp.nemoapi.ro.NemoSalesTransactionListRO;
 import kr.co.seesoft.nemo.starnemoapp.nemoapi.ro.NemoVisitListRO;
 import kr.co.seesoft.nemo.starnemoapp.ui.PaginationScrollListener;
 import kr.co.seesoft.nemo.starnemoapp.ui.dialog.CustomProgressDialog;
@@ -73,7 +77,6 @@ public class DepartmentContactFragment extends Fragment {
     Gson gson = new Gson();
 
     private int currentPage = 1; // 초기 페이지
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -206,6 +209,15 @@ public class DepartmentContactFragment extends Fragment {
         departmentContactViewModel.apiDepartmentContact(searchDeptNm,searchUserNm);
     }
 
+    protected void registerCall(NemoDepartmentContactListRO t){
+
+        if (t.getBzMoblPhno() != null) {
+            AndroidUtil.log(t.getBzMoblPhno());
+
+            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + t.getBzMoblPhno()));
+            startActivity(callIntent);
+        }
+    }
     public class Click implements View.OnClickListener {
 
         @Override
@@ -248,6 +260,7 @@ public class DepartmentContactFragment extends Fragment {
         }
 
         public void setadapterLists(ArrayList<NemoDepartmentContactListRO> adapterLists) {
+
             this.adapterLists = adapterListCopy(adapterLists);
 
             if (adapterLists.isEmpty()) {
@@ -279,7 +292,7 @@ public class DepartmentContactFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
             NemoDepartmentContactListRO t = this.adapterLists.get(position);
 
             holder.bindItem(t);
@@ -291,6 +304,16 @@ public class DepartmentContactFragment extends Fragment {
             {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.even_row_color));
             }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (t != null) {
+                        registerCall(t);
+                    }
+                }
+            });
+
 
         }
 

@@ -441,13 +441,18 @@ public class TransactionDetailFragment extends Fragment { //implements MainMenuA
 
                 case R.id.btnSign:
 
+
                     if( selItem == null )
                     {
                         AndroidUtil.toast(getContext(),"해당 월을 목록에서 선택 하세요!");
 
                         break;
                     }
-
+                    if( selItem.getSgntImgUrl() != null && selItem.getSgntImgUrl().length() > 0 )
+                    {
+                        AndroidUtil.toast(getContext(),"전자서명을 완료한 월 입니다.");
+                        break;
+                    }
                     signPadDialog.show();
 
                     break;
@@ -471,6 +476,13 @@ public class TransactionDetailFragment extends Fragment { //implements MainMenuA
 
                 case R.id.btnPayment:
 
+                    if( selItem == null )
+                    {
+                        AndroidUtil.toast(getContext(),"해당 월을 목록에서 선택 하세요!");
+
+                        break;
+                    }
+                    visitHospital.setJobYm(selItem.getJobYm());
                     Bundle bundle1 = new Bundle();
 
                     bundle1.putSerializable("visit_hospital", visitHospital);
@@ -624,23 +636,32 @@ public class TransactionDetailFragment extends Fragment { //implements MainMenuA
                         // 선택된 항목의 위치 갱신
                         int previousSelectedItem = selectedItemPosition;
 
-                        if( t.getSgntImgUrl() != null && t.getSgntImgUrl().length() > 0 )
-                        {
-                            AndroidUtil.toast(getContext(),"전자서명을 완료한 월 입니다.");
-                        }
-                        else
-                        {
-                            selectedItemPosition = position;
+//                        if( t.getSgntImgUrl() != null && t.getSgntImgUrl().length() > 0 )
+//                        {
+//                            AndroidUtil.toast(getContext(),"전자서명을 완료한 월 입니다.");
+//                        }
+//                        else
+//                        {
+//                            selectedItemPosition = position;
+//
+//                            // 기존에 선택된 항목의 텍스트 색상을 원래대로 변경
+//                            notifyItemChanged(previousSelectedItem);
+//
+//                            // 새로 선택된 항목의 텍스트 색상을 변경
+//                            notifyItemChanged(selectedItemPosition);
+//
+//                            selectTask(t);
+//
+//                        }
+                        selectedItemPosition = position;
 
-                            // 기존에 선택된 항목의 텍스트 색상을 원래대로 변경
-                            notifyItemChanged(previousSelectedItem);
+                        // 기존에 선택된 항목의 텍스트 색상을 원래대로 변경
+                        notifyItemChanged(previousSelectedItem);
 
-                            // 새로 선택된 항목의 텍스트 색상을 변경
-                            notifyItemChanged(selectedItemPosition);
+                        // 새로 선택된 항목의 텍스트 색상을 변경
+                        notifyItemChanged(selectedItemPosition);
 
-                            selectTask(t);
-
-                        }
+                        selectTask(t);
                     }
                 });
             }

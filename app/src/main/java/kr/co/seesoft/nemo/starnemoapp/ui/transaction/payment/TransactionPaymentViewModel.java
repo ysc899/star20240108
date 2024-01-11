@@ -148,9 +148,13 @@ public class TransactionPaymentViewModel extends AndroidViewModel {
         NemoSalesTransactionListPO param = new NemoSalesTransactionListPO();
 
         param.setCustCd(selHospital.getCustCd());
-        param.setJobYmFrom(this.startYM.getValue().replace("-",""));
-        param.setJobYmTo(this.endYM.getValue().replace("-",""));
-
+        if (selHospital.getJobYm() != null) {
+            param.setJobYmFrom(selHospital.getJobYm());
+            param.setJobYmTo(selHospital.getJobYm());
+        } else {
+            param.setJobYmFrom(this.startYM.getValue().replace("-", ""));
+            param.setJobYmTo(this.endYM.getValue().replace("-", ""));
+        }
         AndroidUtil.log("NemoSalesTransactionListPO : " + param);
 
         api.getSalesTransactionList(param, detailApiHandler);

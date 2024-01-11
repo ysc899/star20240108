@@ -43,7 +43,7 @@ public class BagSendViewModel extends AndroidViewModel {
     private Application application;
 
     private String userId;
-
+    private String deptCd;
     private NemoAPI api;
     private Handler apiHandler;
 
@@ -64,7 +64,7 @@ public class BagSendViewModel extends AndroidViewModel {
 
         SharedPreferences sp = application.getSharedPreferences(AndroidUtil.TAG_SP, Context.MODE_PRIVATE);
         userId = sp.getString(AndroidUtil.SP_LOGIN_ID, "");
-
+        deptCd = sp.getString(AndroidUtil.SP_LOGIN_DEPT, "");
         apiHandler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -110,6 +110,7 @@ public class BagSendViewModel extends AndroidViewModel {
 
         NemoBagSendListPO param = new NemoBagSendListPO();
         param.setUserId(userId);
+        param.setDeptCd(deptCd);
 
         Date d = this.searchDate.getValue();
 

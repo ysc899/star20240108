@@ -103,6 +103,18 @@ public class NemoHospitalSearchRO implements Serializable {
     @SerializedName("imgUrl")
     private String imgUrl;
 
+    /**  */
+    @SerializedName("jobYm")
+    private String jobYm;
+
+    public String getJobYm() {
+        return jobYm;
+    }
+
+    public void setJobYm(String jobYm) {
+        this.jobYm = jobYm;
+    }
+
     public String getLhqrCd() {
         return lhqrCd;
     }

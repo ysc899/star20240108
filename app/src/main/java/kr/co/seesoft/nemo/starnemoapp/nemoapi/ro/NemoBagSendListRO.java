@@ -8,6 +8,8 @@ public class NemoBagSendListRO implements Serializable {
     /**  */
     public String regDtm;
     /**  */
+    public String sno;
+    /**  */
     public String rgurId;
     /**  */
     public String updtDtm;
